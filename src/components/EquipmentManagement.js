@@ -1,7 +1,7 @@
 // src/components/EquipmentManagement.js
 import React, { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function EquipmentManagement() {
   const [equipment, setEquipment] = useState([]);
@@ -32,19 +32,15 @@ function EquipmentManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingId) {
-        await fetch(`${API_URL}/equipment/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      } else {
-        await fetch(`${API_URL}/equipment`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      }
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? `${API_URL}/equipment/${editingId}` : `${API_URL}/equipment`;
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
       resetForm();
       fetchEquipment();
     } catch (error) {
@@ -106,7 +102,7 @@ function EquipmentManagement() {
                 <input
                   type="text"
                   value={formData.equipmentName}
-                  onChange={(e) => setFormData({...formData, equipmentName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, equipmentName: e.target.value })}
                   required
                   placeholder="e.g., Tractor, Plow, Irrigation System"
                 />
@@ -115,7 +111,7 @@ function EquipmentManagement() {
                 <label>Type</label>
                 <select
                   value={formData.equipmentType}
-                  onChange={(e) => setFormData({...formData, equipmentType: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, equipmentType: e.target.value })}
                 >
                   <option value="">Select Type</option>
                   <option value="Tractor">Tractor</option>
@@ -129,7 +125,7 @@ function EquipmentManagement() {
                 <label>Condition</label>
                 <select
                   value={formData.condition}
-                  onChange={(e) => setFormData({...formData, condition: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
                 >
                   <option value="Working">Working</option>
                   <option value="Needs Repair">Needs Repair</option>
@@ -144,7 +140,7 @@ function EquipmentManagement() {
                 <input
                   type="date"
                   value={formData.lastMaintenance}
-                  onChange={(e) => setFormData({...formData, lastMaintenance: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, lastMaintenance: e.target.value })}
                 />
               </div>
               <div className="form-group">
@@ -152,7 +148,7 @@ function EquipmentManagement() {
                 <input
                   type="text"
                   value={formData.location}
-                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                   placeholder="e.g., Farm Section A, Shed 2"
                 />
               </div>

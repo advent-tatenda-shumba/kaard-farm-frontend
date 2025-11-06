@@ -1,7 +1,7 @@
 // src/components/ProductionTracking.js
 import React, { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function ProductionTracking() {
   const [production, setProduction] = useState([]);
@@ -95,7 +95,7 @@ function ProductionTracking() {
                 <input
                   type="text"
                   value={formData.fieldNumber}
-                  onChange={(e) => setFormData({...formData, fieldNumber: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, fieldNumber: e.target.value })}
                   required
                   placeholder="e.g., Field A1, Plot 5"
                 />
@@ -105,7 +105,7 @@ function ProductionTracking() {
                 <input
                   type="text"
                   value={formData.cropType}
-                  onChange={(e) => setFormData({...formData, cropType: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, cropType: e.target.value })}
                   required
                   placeholder="e.g., Maize, Wheat"
                 />
@@ -116,7 +116,7 @@ function ProductionTracking() {
                   type="number"
                   step="0.01"
                   value={formData.areaHectares}
-                  onChange={(e) => setFormData({...formData, areaHectares: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, areaHectares: e.target.value })}
                   required
                   placeholder="0.00"
                 />
@@ -129,7 +129,7 @@ function ProductionTracking() {
                 <input
                   type="date"
                   value={formData.plantingDate}
-                  onChange={(e) => setFormData({...formData, plantingDate: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, plantingDate: e.target.value })}
                   required
                 />
               </div>
@@ -138,7 +138,7 @@ function ProductionTracking() {
                 <input
                   type="date"
                   value={formData.harvestDate}
-                  onChange={(e) => setFormData({...formData, harvestDate: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, harvestDate: e.target.value })}
                 />
               </div>
               <div className="form-group">
@@ -146,7 +146,7 @@ function ProductionTracking() {
                 <input
                   type="number"
                   value={formData.yieldAmount}
-                  onChange={(e) => setFormData({...formData, yieldAmount: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, yieldAmount: e.target.value })}
                   placeholder="Total yield in kg"
                 />
               </div>
@@ -157,7 +157,7 @@ function ProductionTracking() {
                 <label>Quality Grade</label>
                 <select
                   value={formData.qualityGrade}
-                  onChange={(e) => setFormData({...formData, qualityGrade: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, qualityGrade: e.target.value })}
                 >
                   <option value="">Select Grade</option>
                   <option value="A">Grade A - Excellent</option>

@@ -1,7 +1,7 @@
 // src/components/CropManagement.js
 import React, { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function CropManagement() {
   const [crops, setCrops] = useState([]);
@@ -33,19 +33,15 @@ function CropManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingId) {
-        await fetch(`${API_URL}/crops/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      } else {
-        await fetch(`${API_URL}/crops`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      }
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? `${API_URL}/crops/${editingId}` : `${API_URL}/crops`;
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
       resetForm();
       fetchCrops();
     } catch (error) {
@@ -110,7 +106,7 @@ function CropManagement() {
                 <input
                   type="text"
                   value={formData.cropName}
-                  onChange={(e) => setFormData({...formData, cropName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, cropName: e.target.value })}
                   required
                   placeholder="e.g., Maize, Wheat, Tobacco"
                 />
@@ -120,7 +116,7 @@ function CropManagement() {
                 <input
                   type="number"
                   value={formData.quantity}
-                  onChange={(e) => setFormData({...formData, quantity: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                   required
                   placeholder="0"
                 />
@@ -129,7 +125,7 @@ function CropManagement() {
                 <label>Unit</label>
                 <select
                   value={formData.unit}
-                  onChange={(e) => setFormData({...formData, unit: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                 >
                   <option value="kg">Kilograms (kg)</option>
                   <option value="tons">Tons</option>
@@ -144,7 +140,7 @@ function CropManagement() {
                 <input
                   type="text"
                   value={formData.storageLocation}
-                  onChange={(e) => setFormData({...formData, storageLocation: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, storageLocation: e.target.value })}
                   placeholder="e.g., Warehouse A, Silo 2"
                 />
               </div>
@@ -153,14 +149,14 @@ function CropManagement() {
                 <input
                   type="date"
                   value={formData.harvestDate}
-                  onChange={(e) => setFormData({...formData, harvestDate: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, harvestDate: e.target.value })}
                 />
               </div>
               <div className="form-group">
                 <label>Status</label>
                 <select
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 >
                   <option value="In Stock">In Stock</option>
                   <option value="Low Stock">Low Stock</option>

@@ -12,7 +12,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function VehicleTracking() {
   const [vehicles, setVehicles] = useState([]);
@@ -48,19 +48,15 @@ function VehicleTracking() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editingId) {
-        await fetch(`${API_URL}/vehicles/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      } else {
-        await fetch(`${API_URL}/vehicles`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-      }
+      const method = editingId ? 'PUT' : 'POST';
+      const url = editingId ? `${API_URL}/vehicles/${editingId}` : `${API_URL}/vehicles`;
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
       resetForm();
       fetchVehicles();
     } catch (error) {
@@ -152,7 +148,7 @@ function VehicleTracking() {
                 <input
                   type="text"
                   value={formData.vehicleName}
-                  onChange={(e) => setFormData({...formData, vehicleName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, vehicleName: e.target.value })}
                   required
                   placeholder="e.g., Tractor 1, Truck A"
                 />
@@ -162,7 +158,7 @@ function VehicleTracking() {
                 <input
                   type="text"
                   value={formData.registration}
-                  onChange={(e) => setFormData({...formData, registration: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, registration: e.target.value })}
                   placeholder="e.g., ABC-1234"
                 />
               </div>
@@ -170,7 +166,7 @@ function VehicleTracking() {
                 <label>Type</label>
                 <select
                   value={formData.type}
-                  onChange={(e) => setFormData({...formData, type: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                 >
                   <option value="">Select Type</option>
                   <option value="Tractor">Tractor</option>
@@ -180,14 +176,13 @@ function VehicleTracking() {
                 </select>
               </div>
             </div>
-
             <div className="form-row">
               <div className="form-group">
                 <label>Driver Name</label>
                 <input
                   type="text"
                   value={formData.driverName}
-                  onChange={(e) => setFormData({...formData, driverName: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, driverName: e.target.value })}
                   placeholder="Driver's name"
                 />
               </div>
@@ -198,14 +193,14 @@ function VehicleTracking() {
                   min="0"
                   max="100"
                   value={formData.fuelLevel}
-                  onChange={(e) => setFormData({...formData, fuelLevel: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, fuelLevel: e.target.value })}
                 />
               </div>
               <div className="form-group">
                 <label>Status</label>
                 <select
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 >
                   <option value="Idle">Idle</option>
                   <option value="Active">Active</option>
@@ -241,10 +236,10 @@ function VehicleTracking() {
               >
                 <Popup>
                   <div className="vehicle-popup">
-                    <strong>{vehicle.vehicleName}</strong><br/>
-                    Registration: {vehicle.registration}<br/>
-                    Status: <span style={{color: getStatusColor(vehicle.status)}}>{vehicle.status}</span><br/>
-                    Fuel: {vehicle.fuelLevel}%<br/>
+                    <strong>{vehicle.vehicleName}</strong><br />
+                    Registration: {vehicle.registration}<br />
+                    Status: <span style={{ color: getStatusColor(vehicle.status) }}>{vehicle.status}</span><br />
+                    Fuel: {vehicle.fuelLevel}%<br />
                     Driver: {vehicle.driverName || 'Unassigned'}
                   </div>
                 </Popup>
@@ -265,7 +260,7 @@ function VehicleTracking() {
                     <h4>{vehicle.vehicleName}</h4>
                     <span
                       className="status-indicator"
-                      style={{backgroundColor: getStatusColor(vehicle.status)}}
+                      style={{ backgroundColor: getStatusColor(vehicle.status) }}
                     >
                       {vehicle.status}
                     </span>
