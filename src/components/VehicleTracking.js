@@ -16,7 +16,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 function VehicleTracking() {
   const [vehicles, setVehicles] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); 
   const [formData, setFormData] = useState({
     vehicleName: '',
     registration: '',

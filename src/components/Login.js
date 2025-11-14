@@ -41,8 +41,16 @@ function Login({ onLogin }) {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1>Kaard Farm System</h1>
-        <h3>Management & Vehicle Tracking</h3>
+        {/* Logo */}
+        <div className="logo-container">
+          <svg width="150" height="45" viewBox="0 0 150 45">
+            <text x="5" y="26" fontFamily="Arial Black, sans-serif" fontSize="21" fontWeight="900" fill="#2D7A3E">KAARD</text>
+            <text x="5" y="39" fontFamily="Arial, sans-serif" fontSize="8" fill="#4CAF50" letterSpacing="1.5">INVESTMENTS</text>
+          </svg>
+        </div>
+
+        <h1>Welcome Back</h1>
+        <h3>Sign in to access the farm management system</h3>
 
         {error && (
           <div className="error-message">
@@ -50,7 +58,7 @@ function Login({ onLogin }) {
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <div>
           <div className="form-group">
             <label>Username</label>
             <input
@@ -58,7 +66,7 @@ function Login({ onLogin }) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              placeholder="Enter username"
+              placeholder="Enter your username"
               autoFocus
             />
           </div>
@@ -70,21 +78,22 @@ function Login({ onLogin }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="Enter password"
+              placeholder="Enter your password"
             />
           </div>
 
           <button 
-            type="submit" 
+            type="button"
+            onClick={handleSubmit}
             className="btn-primary"
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
-        </form>
+        </div>
 
         <p className="login-hint">
-          Default credentials: admin / admin123
+          Credentials: admin / admin***
         </p>
       </div>
     </div>
